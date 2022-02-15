@@ -1,58 +1,51 @@
 <!DOCTYPE html>
+
 <head>
-	<title>Electricity Bill Calculation</title>
+	<title>Calculator</title>
 </head>
 
 <?php
-$result_str = $result = '';
-if (isset($_POST['unit-submit'])) {
-    $units = $_POST['units'];
-    if (!empty($units)) {
-        $result = calculate_bill($units);
-        $result_str = 'Total amount of ' . $units . ' - ' . $result;
+$num1 = $_POST['num1'];
+$num2 = $_POST['num2'];
+$operator = $_POST['operator'];
+$result = '';
+if (is_numeric($num1) && is_numeric($num2)) {
+    switch ($operator) {
+        case "Add":
+           $result = $num1 + $num2;
+            break;
+        case "Subtract":
+           $result = $num1 - $num2;
+            break;
+        case "Multiply":
+            $result = $num1 * $num2;
+            break;
+        case "Divide":
+            $result = $num1 / $num2;
     }
-}
-function calculate_bill($units) {
-    $firstBill = 3.50;
-    $secondBill = 4.00;
-    $thirdBill = 5.20;
-    $fourthBill = 6.50;
-
-    if($units <= 50) {
-        $bill = $units * $firstBill;
-    }
-    else if($units > 50 && $units <= 100) {
-        $temp = 50 * $firstBill;
-        $remaining_units = $units - 50;
-        $bill = $temp + ($remaining_units * $secondBill);
-    }
-    else if($units > 100 && $units <= 200) {
-        $temp = (50 * 3.5) + (100 * $secondBill);
-        $remaining_units = $units - 150;
-        $bill = $temp + ($remaining_units * $thirdBill);
-    }
-    else {
-        $temp = (50 * 3.5) + (100 * $secondBill) + (100 * $thirdBill);
-        $remaining_units = $units - 250;
-        $bill = $temp + ($remaining_units * $fourthBill);
-    }
-    return number_format((float)$bill, 2, '.', '');
 }
 
 ?>
 
 <body>
-	<div id="page-wrap">
-		<h1>Php - Calculate Electricity Bill</h1>
-
-		<form action="" method="post" id="quiz-form">
-            	<input type="number" name="units" id="units" placeholder="Please enter no. of Units" />
-            	<input type="submit" name="unit-submit" id="unit-submit" value="Submit" />
-		</form>
-
-		<div>
-		    <?php echo '<br />' . $result_str; ?>
-		</div>
-	</div>
+    <div id="page-main">
+	<h1>PHP - Simple Calculator Program</h1>
+	  <form action="" method="post" id="askForm">
+            <p>
+                <input type="number" name="num1" id="num1" required="required" value="<?php echo $num1; ?>" /> <b>First Number</b>
+            </p>
+            <p>
+                <input type="number" name="num2" id="num2" required="required" value="<?php echo $num2; ?>" /> <b>Second Number</b>
+            </p>
+            <p>
+                <input readonly="readonly" name="result" value="<?php echo $result; ?>"> <b>Result</b>
+            </p>
+            <input type="submit" name="operator" value="Add" />
+            <input type="submit" name="operator" value="Subtract" />
+            <input type="submit" name="operator" value="Multiply" />
+            <input type="submit" name="operator" value="Divide" />
+	  </form>
+    </div>
 </body>
 </html>
+PHP
